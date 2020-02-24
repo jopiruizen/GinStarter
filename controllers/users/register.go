@@ -1,42 +1,42 @@
 package users
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"go-restapi/helper"
 	"go-restapi/models"
+	"go-restapi/services"
+	"io/ioutil"
 )
 
-func Register(context *gin.Context) {
+type RegisterJSONParam struct {
+	user models.User
+}
+
+func serializeParam(ctx *gin.Context) (RegisterJSONParam, error) {
+	body := ctx.Request.Body
+	value, err := ioutil.ReadAll(body)
+	jsonParam := RegisterJSONParam{}
+	if err != nil {
+		fmt.Println(err.Error())
+		return RegisterJSONParam{}, err
+	}
+	json.Unmarshal(value, &jsonParam)
+	return jsonParam, err
+}
+
+func Register(ctx *gin.Context) {
 	fmt.Println("")
 	fmt.Println("")
 	fmt.Println("controllers.users.Register()")
-	jsonMap, err := helper.BodyToJSONMap(context)
-
-	if err != nil {
-		fmt.Println("Malformed POST JSON parameter")
+	params, serializeErr := serializeParam(ctx)
+	if serializeErr != nil {
+		fmt.Println("Malformed Register POST JSON parameter")
 	}
-
-	user := models.User{}
-	user.DecodeJSON(jsonMap)
-
-	fmt.Println("")
-	fmt.Println("")
-	fmt.Println("User Registered: User.Name: ", user.Name)
-	fmt.Println("User Registered: User.Email: ", user.Email)
-	fmt.Println("User Registered: User.Age: ", user.Age)
-
-	status_message := "User Registered"
-
-	errs := user.Validate()
-
-	if errs != nil {
-		status_message = "Validation Error!!"
-	}
-
-	context.JSON(200, gin.H{
-		"status_message": status_message,
-		"user": user.EncodeJSON(),
-		"errors": errs,
+	user, statusMessage, errs := services.RegisterUser(params.user)
+	ctx.JSON(200, gin.H{
+		"status_message": statusMessage,
+		"user":           user.EncodeJSON(),
+		"errors":         errs,
 	})
 }

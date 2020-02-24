@@ -2,7 +2,6 @@ package main
 
 import "fmt"
 import "github.com/gin-gonic/gin"
-import "log"
 import "go-restapi/controllers/users"
 
 func homePage (context *gin.Context) {
@@ -12,8 +11,7 @@ func homePage (context *gin.Context) {
 }
 
 func main() {
-	fmt.Println("Hellow World JOpi")
-	log.Println("Logging Logging....")
+	fmt.Println("Initializing Gin Services...")
 	r := gin.Default()
 	r.GET("/", homePage)
 	r.POST("/user/register", users.Register)
