@@ -18,6 +18,7 @@ func serializeParam(ctx *gin.Context) (models.RegisterUserInput, error) {
 		return models.RegisterUserInput{}, models.ErrMalformedParameter
 	}
 	json.Unmarshal(value, &jsonParam)
+	fmt.Println("SerializeParam: ", jsonParam)
 	return jsonParam, err
 }
 

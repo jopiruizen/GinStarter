@@ -11,7 +11,8 @@ func Find(ctx *gin.Context) {
 	fmt.Println("")
 	fmt.Println("controllers.users.Find()")
 	params, serializeErr := serializeParam(ctx)
-
+	fmt.Println("User param: ", params)
+	fmt.Println("Error:?", serializeErr)
 	if serializeErr != nil {
 		fmt.Println("Malformed Register POST JSON parameter")
 		sendErrResponse(serializeErr, ctx)

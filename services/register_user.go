@@ -23,5 +23,6 @@ func FindUserByEmail(email string) (models.User, error) {
 	fmt.Println("")
 	fmt.Println("")
 	fmt.Println("Finding User By Email: ", email)
-	return repository.GetUserStore().FindByEmail(email)
+	store := repository.GetUserStore()
+	return store.FindByEmail(email)
 }
