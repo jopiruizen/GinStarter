@@ -16,5 +16,6 @@ func main() {
 	r.GET("/", homePage)
 	r.POST("/user/register", users.Register)
 	r.POST("/user/find", users.Find)
+	r.POST("/user/find2", users.FindOnFile)
 	r.Run()
 }

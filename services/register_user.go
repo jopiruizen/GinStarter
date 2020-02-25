@@ -23,6 +23,14 @@ func FindUserByEmail(email string) (models.User, error) {
 	fmt.Println("")
 	fmt.Println("")
 	fmt.Println("Finding User By Email: ", email)
-	store := repository.GetUserStore()
+	store := repository.GetUserStore(&repository.StaticSource{})
+	return store.FindByEmail(email)
+}
+
+func FindUserByEmailOnFile(email string) (models.User, error) {
+	fmt.Println("")
+	fmt.Println("")
+	fmt.Println("Finding User By Email: ", email)
+	store := repository.GetUserStore(&repository.FileSource{})
 	return store.FindByEmail(email)
 }

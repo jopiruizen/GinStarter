@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "name":  "Gon Freecs",
+      "email": "gon.freecs@hxh.com",
+      "age":   12
+    },
+
+    {
+      "name":  "Killua Zoldyck",
+      "email": "k.zoldyck@hxh.com",
+      "age":   12
+    },
+
+
+    {
+      "name":  "Larry David",
+      "email": "larry.david@curb.com",
+      "age":   75
+    },
+
+    {
+      "name":  "Jerry Seinfeld",
+      "email": "jerry@seinfeld.com",
+      "age":   61
+    }
+  ]
+}
