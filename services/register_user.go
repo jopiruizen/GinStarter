@@ -3,19 +3,25 @@ package services
 import (
 	"fmt"
 	"go-restapi/models"
+	"go-restapi/repository"
 )
 
-func RegisterUser( user models.User) (models.User, string, error) {
-	validationErrors := user.Validate()
-	statusMessage := "User Successfully Registered!"
-	if validationErrors != nil {
-		statusMessage = "Validation Errors!!!"
-	}
+func RegisterUser(user models.User) (models.User, error) {
+	badInputError := user.Validate()
+
 	/* DO REGISTRATION HERE */
 	fmt.Println("")
 	fmt.Println("")
 	fmt.Println("User Registered: User.Name: ", user.Name)
 	fmt.Println("User Registered: User.Email: ", user.Email)
 	fmt.Println("User Registered: User.Age: ", user.Age)
-	return user, statusMessage, validationErrors
+
+	return user, badInputError
+}
+
+func FindUserByEmail(email string) (models.User, error) {
+	fmt.Println("")
+	fmt.Println("")
+	fmt.Println("Finding User By Email: ", email)
+	return repository.GetUserStore().FindByEmail(email)
 }
