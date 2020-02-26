@@ -3,13 +3,15 @@ package users
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	log "github.com/golang/glog"
 	"go-restapi/services"
 )
 
 func Find(ctx *gin.Context) {
-	fmt.Println("")
-	fmt.Println("")
-	fmt.Println("controllers.users.Find()")
+	log.Info("")
+	log.Info("")
+	log.Info("hello")
+	log.Info("controllers.users.Find()")
 	params, serializeErr := serializeParam(ctx)
 	fmt.Println("User param: ", params)
 	fmt.Println("Error:?", serializeErr)

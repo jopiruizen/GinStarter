@@ -1,13 +1,19 @@
-package repository
+package static
 
 import (
+	log "github.com/golang/glog"
+	"go-restapi/helper"
 	"go-restapi/models"
 )
 
-type StaticSource struct{}
+type StaticSource struct {
+	usersList []models.User
+}
 
-func (src *StaticSource) LoadSource() []models.User {
-	return []models.User{
+func (src *StaticSource) LoadSource() {
+
+	log.Info("StaticSource.LoadSource()")
+	src.usersList = []models.User{
 		models.User{
 			Name:  "Gon Freecs",
 			Email: "gon.freecs@hxh.com",
@@ -32,4 +38,8 @@ func (src *StaticSource) LoadSource() []models.User {
 			Age:   61,
 		},
 	}
+}
+
+func (src *StaticSource) Find(email string) (models.User, error) {
+	return helper.SearchByEmail(email, src.usersList)
 }

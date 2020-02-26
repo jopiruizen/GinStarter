@@ -10,13 +10,13 @@ func sendErrResponse(err error, ctx *gin.Context) {
 	case models.ErrBadInput:
 		ctx.JSON(200, gin.H{
 			"status_message": "Bad Input error ",
-			"error":          err,
+			"error":          err.Error(),
 		})
 
 	case models.ErrNoRecordFound:
 		ctx.JSON(200, gin.H{
 			"status_message": "No Record Found",
-			"error":          err,
+			"error":          err.Error(),
 		})
 	}
 

@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
-import "github.com/gin-gonic/gin"
-import "go-restapi/controllers/users"
+import (
+	"github.com/gin-gonic/gin"
+	log "github.com/golang/glog"
+	"go-restapi/controllers/users"
+)
 
 func homePage(context *gin.Context) {
 	context.JSON(200, gin.H{
@@ -11,7 +13,7 @@ func homePage(context *gin.Context) {
 }
 
 func main() {
-	fmt.Println("Initializing Gin Services...")
+	log.Info("Initializing Gin Services...")
 	r := gin.Default()
 	r.GET("/", homePage)
 	r.POST("/user/register", users.Register)

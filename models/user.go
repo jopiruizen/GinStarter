@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
+	log "github.com/golang/glog"
 	"gopkg.in/validator.v2"
 )
 
@@ -18,7 +18,7 @@ type User struct {
 
 func (user *User) Validate() error {
 	if errs := validator.Validate(user); errs != nil {
-		fmt.Println("Errors: ", errs)
+		log.Error("Errors: ", errs.Error())
 		return ErrBadInput
 	}
 	return nil
@@ -28,7 +28,7 @@ func (user *User) EncodeJSON() string {
 	data, error := json.Marshal(user)
 
 	if error != nil {
-		fmt.Println("Encode Error: ", error)
+		log.Error("Encode Error: ", error.Error())
 	}
 
 	return string(data[:])

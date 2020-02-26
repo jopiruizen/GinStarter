@@ -2,8 +2,8 @@ package users
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	log "github.com/golang/glog"
 	"go-restapi/models"
 	"go-restapi/services"
 	"io/ioutil"
@@ -14,22 +14,22 @@ func serializeParam(ctx *gin.Context) (models.RegisterUserInput, error) {
 	value, err := ioutil.ReadAll(body)
 	jsonParam := models.RegisterUserInput{}
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Error(err.Error())
 		return models.RegisterUserInput{}, models.ErrMalformedParameter
 	}
 	json.Unmarshal(value, &jsonParam)
-	fmt.Println("SerializeParam: ", jsonParam)
+	log.Info("SerializeParam: ", jsonParam)
 	return jsonParam, err
 }
 
 func Register(ctx *gin.Context) {
-	fmt.Println("")
-	fmt.Println("")
-	fmt.Println("controllers.users.Register()")
+	log.Info("")
+	log.Info("")
+	log.Info("controllers.users.Register()")
 	params, serializeErr := serializeParam(ctx)
 
 	if serializeErr != nil {
-		fmt.Println("Malformed Register POST JSON parameter")
+		log.Error("Malformed Register POST JSON parameter", serializeErr.Error())
 		sendErrResponse(serializeErr, ctx)
 		return
 	}
