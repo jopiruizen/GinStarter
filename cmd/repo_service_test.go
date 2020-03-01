@@ -57,3 +57,21 @@ func TestFind(t *testing.T) {
 	assert.Equal(t, "ldavid@curb.com", testResult.Email)
 	assert.Equal(t, 75, testResult.Age)
 }
+
+func TestFindErrorNoRecordFound(t *testing.T) {
+	mockRepo := new(MockRepoSource)
+
+	//set up expecations
+	mockRepo.On("Find").Return(
+		models.User{
+			Email: "ldavid@curb.com",
+			Name:  "Larry David",
+			Age:   75,
+		},
+		models.ErrNoRecordFound)
+
+	testService := services.NewService(mockRepo)
+	_, err := testService.Find("ldavid@curb.com")
+	mockRepo.AssertExpectations(t)
+	assert.Equal(t, models.ErrNoRecordFound.Error(), err.Error())
+}
