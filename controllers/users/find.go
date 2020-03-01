@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	log "github.com/golang/glog"
+	"go-restapi/repository"
+	"go-restapi/repository/commons"
 	"go-restapi/services"
 )
 
@@ -21,7 +23,10 @@ func Find(ctx *gin.Context) {
 		return
 	}
 
-	user, findError := services.FindUserByEmail(params.User.Email)
+	var source = repository.NewRepoSource(commons.SOURCE_TYPE_STATIC)
+	var service = services.NewService(source)
+	user, findError := service.Find(params.User.Email)
+
 	if findError != nil {
 		sendErrResponse(findError, ctx)
 	} else {
@@ -45,7 +50,10 @@ func FindOnFile(ctx *gin.Context) {
 		return
 	}
 
-	user, findError := services.FindUserByEmailOnFile(params.User.Email)
+	var source = repository.NewRepoSource(commons.SOURCE_TYPE_FILE)
+	var service = services.NewService(source)
+	user, findError := service.Find(params.User.Email)
+
 	if findError != nil {
 		sendErrResponse(findError, ctx)
 	} else {

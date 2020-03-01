@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	log "github.com/golang/glog"
 	"go-restapi/models"
+	"go-restapi/repository"
+	"go-restapi/repository/commons"
 	"go-restapi/services"
 	"io/ioutil"
 )
@@ -33,7 +35,10 @@ func Register(ctx *gin.Context) {
 		sendErrResponse(serializeErr, ctx)
 		return
 	}
-	user, err := services.RegisterUser(params.User)
+
+	var source = repository.NewRepoSource(commons.SOURCE_TYPE_STATIC)
+	var service = services.NewService(source)
+	user, err := service.RegisterUser(params.User)
 
 	if err != nil {
 		sendErrResponse(err, ctx)

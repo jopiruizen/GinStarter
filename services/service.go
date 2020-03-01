@@ -4,13 +4,19 @@ import (
 	log "github.com/golang/glog"
 	"go-restapi/models"
 	"go-restapi/repository"
-	"go-restapi/repository/commons"
 )
 
-func RegisterUser(user models.User) (models.User, error) {
+type Service struct {
+	repository repository.IRepoSource
+}
+
+func NewService(repository repository.IRepoSource) Service {
+	return Service{repository: repository}
+}
+
+func (service *Service) RegisterUser(user models.User) (models.User, error) {
 	badInputError := user.Validate()
 	/* DO REGISTRATION HERE */
-
 	log.Info("")
 	log.Info("")
 	log.Info("User Registered: User.Name: ", user.Name)
@@ -19,18 +25,9 @@ func RegisterUser(user models.User) (models.User, error) {
 	return user, badInputError
 }
 
-func FindUserByEmail(email string) (models.User, error) {
+func (service *Service) Find(email string) (models.User, error) {
 	log.Info("")
 	log.Info("")
 	log.Info("Finding User By Email: ", email)
-	source := repository.NewRepoSource(commons.SOURCE_TYPE_STATIC)
-	return source.Find(email)
-}
-
-func FindUserByEmailOnFile(email string) (models.User, error) {
-	log.Info("")
-	log.Info("")
-	log.Info("Finding User By Email: ", email)
-	source := repository.NewRepoSource(commons.SOURCE_TYPE_FILE)
-	return source.Find(email)
+	return service.repository.Find(email)
 }

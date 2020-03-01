@@ -1,39 +1,12 @@
 package main_test
 
 import (
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"go-restapi/models"
+	"go-restapi/services"
 	"testing"
 )
-
-type opTest struct {
-	input    int
-	expected int
-}
-
-var opTestCases = []opTest{
-	{
-		1,
-		2,
-	},
-
-	{
-		10,
-		11,
-	},
-}
-
-func TestSample(t *testing.T) {
-	for _, test := range opTestCases {
-		if output := addOne(test.input); output != test.expected {
-			t.Error("AddOne Failed: Input: ", test.input, " Expected:", test.expected, " Output:", output)
-		}
-	}
-}
-
-func addOne(n int) int {
-	return n + 1
-}
 
 /*
  * With Mock Repo Source
@@ -65,8 +38,10 @@ func (mock *MockRepoSource) Find(email string) (models.User, error) {
 	return result.(models.User), args.Error(1)
 }
 
-func TestLoadSource(t *testing.T) {
+func TestFind(t *testing.T) {
 	mockRepo := new(MockRepoSource)
+
+	//set up expecations
 	mockRepo.On("Find").Return(
 		models.User{
 			Email: "ldavid@curb.com",
@@ -74,4 +49,11 @@ func TestLoadSource(t *testing.T) {
 			Age:   75,
 		},
 		nil)
+
+	testService := services.NewService(mockRepo)
+	testResult, _ := testService.Find("ldavid@curb.com")
+	mockRepo.AssertExpectations(t)
+	assert.Equal(t, "Larry David", testResult.Name)
+	assert.Equal(t, "ldavid@curb.com", testResult.Email)
+	assert.Equal(t, 75, testResult.Age)
 }
