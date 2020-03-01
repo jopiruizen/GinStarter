@@ -1,0 +1,9 @@
+{
+  "sourcePath" : "register200",
+  "status_message": "Registration Successful",
+  "user":  {
+    "name": "Phil Ardona",
+    "email": "phil.ardona@gmail.com",
+    "age": 30
+  }
+}

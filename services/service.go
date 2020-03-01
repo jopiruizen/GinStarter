@@ -4,6 +4,7 @@ import (
 	log "github.com/golang/glog"
 	"go-restapi/models"
 	"go-restapi/repository"
+	"go-restapi/repository/commons"
 )
 
 func RegisterUser(user models.User) (models.User, error) {
@@ -22,7 +23,7 @@ func FindUserByEmail(email string) (models.User, error) {
 	log.Info("")
 	log.Info("")
 	log.Info("Finding User By Email: ", email)
-	source := repository.NewRepoSource(repository.SourceType.STATIC)
+	source := repository.NewRepoSource(commons.SOURCE_TYPE_STATIC)
 	return source.Find(email)
 }
 
@@ -30,6 +31,6 @@ func FindUserByEmailOnFile(email string) (models.User, error) {
 	log.Info("")
 	log.Info("")
 	log.Info("Finding User By Email: ", email)
-	source := repository.NewRepoSource(repository.SourceType.FILE)
+	source := repository.NewRepoSource(commons.SOURCE_TYPE_FILE)
 	return source.Find(email)
 }

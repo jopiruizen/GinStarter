@@ -1,0 +1,9 @@
+{
+  "sourcePath" : "find400 / find2 400",
+  "status_message": "Invalid User Input",
+  "user":  {
+    "name": "Phil Ardona",
+    "email": "phil.ardona@gmail.com",
+    "age": 16
+  }
+}

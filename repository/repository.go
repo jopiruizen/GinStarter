@@ -3,19 +3,10 @@ package repository
 import (
 	log "github.com/golang/glog"
 	"go-restapi/models"
+	"go-restapi/repository/commons"
 	"go-restapi/repository/file"
 	"go-restapi/repository/static"
 )
-
-type _sourceType struct {
-	STATIC string
-	FILE   string
-}
-
-var SourceType = _sourceType{
-	STATIC: "static",
-	FILE:   "file",
-}
 
 type IRepoSource interface {
 	LoadSource()
@@ -27,10 +18,10 @@ func NewRepoSource(srcType string) IRepoSource {
 	log.Info("NewRepoSource()", srcType)
 	switch srcType {
 
-	case SourceType.STATIC:
+	case commons.SOURCE_TYPE_STATIC:
 		source = &static.StaticSource{}
 
-	case SourceType.FILE:
+	case commons.SOURCE_TYPE_FILE:
 		source = &file.FileSource{}
 
 	}

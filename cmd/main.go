@@ -14,10 +14,10 @@ func homePage(context *gin.Context) {
 
 func main() {
 	log.Info("Initializing Gin Services...")
-	r := gin.Default()
-	r.GET("/", homePage)
-	r.POST("/user/register", users.Register)
-	r.POST("/user/find", users.Find)
-	r.POST("/user/find2", users.FindOnFile)
-	r.Run()
+	router := gin.Default()
+	router.GET("/", homePage)
+	router.POST("/user/register", users.Register)
+	router.POST("/user/find", users.Find)
+	router.POST("/user/find2", users.FindOnFile)
+	router.Run()
 }

@@ -1,0 +1,9 @@
+{
+  "sourcePath" : "register200",
+  "status_message": "Invalid User Input",
+  "user":  {
+    "name": "Phil",
+    "email": "phil.ardona@gmail.com",
+    "age": 16
+  }
+}

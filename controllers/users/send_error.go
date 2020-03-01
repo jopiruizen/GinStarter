@@ -8,14 +8,19 @@ import (
 func sendErrResponse(err error, ctx *gin.Context) {
 	switch err {
 	case models.ErrBadInput:
-		ctx.JSON(200, gin.H{
-			"status_message": "Bad Input error ",
+		ctx.JSON(404, gin.H{
+			"status_message": "Bad Input Error",
 			"error":          err.Error(),
 		})
 
 	case models.ErrNoRecordFound:
-		ctx.JSON(200, gin.H{
+		ctx.JSON(422, gin.H{
 			"status_message": "No Record Found",
+			"error":          err.Error(),
+		})
+	default:
+		ctx.JSON(422, gin.H{
+			"status_message": "Unknown Server/Technical Error",
 			"error":          err.Error(),
 		})
 	}
