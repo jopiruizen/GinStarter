@@ -1,7 +1,6 @@
 package main_test
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 
 	"go-restapi/routes"
@@ -99,35 +98,6 @@ var httpCases = []HttpTestCase{
 	},
 }
 
-func NotTestRestAPI(t *testing.T) {
-	t.Log("\n\n\n\n\n\n\n\n\n\n\n\n###########  ################ ############### TestRESTAPI()")
-
-	globalT = t
-	for _, testCase := range httpCases {
-
-		t.Log("\n\n\n\n\n\n###########  NEW REQUEST ############### ")
-		request := httptest.NewRequest(testCase.method, testCase.path, nil)
-		writer := httptest.NewRecorder()
-		testCase.handler(writer, request)
-		response := writer.Result()
-
-		body, _ := ioutil.ReadAll(response.Body)
-		t.Log(fmt.Sprintf("%+v\n", response))
-
-		if testCase.expectedStatus != response.StatusCode {
-			t.Fatal("Status Code Failed at ", testCase.path, " with Code: ", testCase.expectedStatus)
-		}
-
-		expectedJSON := handlerBody(testCase.expectedResponseBody)
-		t.Log("\n\n#####\n - compare?")
-		t.Log("ResponseBody: ", string(body))
-		t.Log(" Expected: ", expectedJSON)
-		if string(body) != expectedJSON {
-			t.Fatal("Response Failed on ", testCase.path, " with Status Code: ", testCase.expectedStatus)
-		}
-	}
-}
-
 func performRequest(r http.Handler, req *http.Request, statusCode int, expectedJSON string) *httptest.ResponseRecorder {
 	writer := httptest.NewRecorder()
 	writer.WriteHeader(statusCode)
@@ -165,6 +135,37 @@ func TestAPI(t *testing.T) {
 }
 
 /*
+
+
+
+func NotTestRestAPI(t *testing.T) {
+	t.Log("\n\n\n\n\n\n\n\n\n\n\n\n###########  ################ ############### TestRESTAPI()")
+
+	globalT = t
+	for _, testCase := range httpCases {
+
+		t.Log("\n\n\n\n\n\n###########  NEW REQUEST ############### ")
+		request := httptest.NewRequest(testCase.method, testCase.path, nil)
+		writer := httptest.NewRecorder()
+		testCase.handler(writer, request)
+		response := writer.Result()
+
+		body, _ := ioutil.ReadAll(response.Body)
+		t.Log(fmt.Sprintf("%+v\n", response))
+
+		if testCase.expectedStatus != response.StatusCode {
+			t.Fatal("Status Code Failed at ", testCase.path, " with Code: ", testCase.expectedStatus)
+		}
+
+		expectedJSON := handlerBody(testCase.expectedResponseBody)
+		t.Log("\n\n#####\n - compare?")
+		t.Log("ResponseBody: ", string(body))
+		t.Log(" Expected: ", expectedJSON)
+		if string(body) != expectedJSON {
+			t.Fatal("Response Failed on ", testCase.path, " with Status Code: ", testCase.expectedStatus)
+		}
+	}
+}
 
 
 
