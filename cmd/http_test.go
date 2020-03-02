@@ -130,12 +130,10 @@ func TestAPI(t *testing.T) {
 		assert.Equal(t, expectedJSON, string(body))
 		//var response map[string]string
 		//json.Unmarshal([]byte(writer.Result()))
-
 	}
 }
 
 /*
-
 
 
 func NotTestRestAPI(t *testing.T) {
